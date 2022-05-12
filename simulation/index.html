@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Computing Pi with Bouncing Cubes - Simulation</title>
+  <link href="style.css" rel="stylesheet" type="text/css"/>
+  <link href="https://fonts.googleapis.com/css?family=Economica:400,700" rel="stylesheet" type="text/css">  
+</head>
+
+<body>
+  <div class="content">
+    
+  <h1>Computing Pi with Bouncing Cubes - Simulation</h1>
+  <h2></h2>
+    
+  <div id='container'>
+    <div id='count'>0</div>
+    <div id='simulation'>
+      <div id='a' class='cube'><div id='a-arrow' class='arrow'>&#x2190;</div>A</div>
+      <div id='b' class='cube'><div id='b-arrow' class='arrow'>&#x2190;</div>B</div>
+    </div>
+  </div>
+    
+  <h3>Notes:</h3>
+  <p>
+    <ul class="readable-text">
+      <li>This is a simulation of two cubes bouncing off of eachother to compute n digits of Pi.</li>
+      <li>By default 5 digits will be computed. To change the number of digits (between 1 and 10) use the url question mark. Eg. <a href='https://bouncing-cubes.snowboardsheep.repl.co/?3'>https://bouncing-cubes.snowboardsheep.repl.co/?3</a></li>
+      <li>Collisions are counted between the two cubes, or between cube B and the wall.</li>
+      <li>The masses of the cubes are 1, and 1 * 100^(n-1) where n is the number of digits computed. The floor is frictionless, and all collisions are completly elastic. Additionally, the wall on the left has an infinite mass.</li>
+      <li>Due to this, all collisions conserve energy, and collisions between cubes conserve momentum.</li>
+      <li>Size of cube does not affect the number of collisions, and is for illustrative purposes only.</li>
+      <li>The first 10 digits of Pi are 3.141592653.</li>
+    </ul>
+  </p>
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>
