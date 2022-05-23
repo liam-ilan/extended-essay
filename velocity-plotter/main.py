@@ -89,17 +89,19 @@ if sys.argv[3] == '-p' or sys.argv[3] == '-pair':
   )
 
   # plot angle between two lines
-  plt.gca().add_patch(Arc(
-    (aData[1], bData[1]), 
-    radius / 2, 
-    radius / 2,
-    0,
-    fullAngle1 / math.pi * 180, 
-    fullAngle2 / math.pi * 180,  
-    color='tab:pink', 
-    linewidth=1, 
-    fill=False
-  ))
+  plt.gca().add_patch(
+    Arc(
+      (aData[1], bData[1]),
+      radius / 2,
+      radius / 2,
+      0,
+      fullAngle1 / math.pi * 180,
+      fullAngle2 / math.pi * 180,
+      color='tab:pink',
+      linewidth=1,
+      fill=False
+    )
+  )
   
   [centerTextX, centerTextY] = getTextPosition(midAngle1, midAngle2, radius / 2.5, radius / 2.5, 0, 0)
   [singleTextX, singleTextY] = getTextPosition(fullAngle1, fullAngle2, radius / 2.5, radius / 2.5, aData[1], bData[1])
