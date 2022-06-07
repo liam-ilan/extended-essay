@@ -2,29 +2,39 @@
 This git contains my exteneded essay and software used to generate the necessary visualizations.
 
 ## Plot Graphs
+To generate graphs, edit the configuration file (`opts.py`), then run
 
-To generate a graph of the configuration space of velocities given two masses:
 ```
-python3 velocity-plotter/main.py [m1] [m2] [-p or -pair for single pair of collisions, -f for full] [filepath]
-```
-
-eg.
-```
-python3 velocity-plotter/main.py 16 1 -p graphs/velocity-16-1-pair.png
+python main.py
 ```
 
-To generate a graph of the configuration space of displacements given two masses:
+`opts.py` contains a dictionary (`opts`) which gets used to pass arguments to the graphing software. This dictionary follows the following structure:
+
 ```
-python3 displacement-plotter/main.py [m1] [m2] [number of time steps post final collision] [filepath]
+{
+  'paths': {
+    '<path name>': {
+      'type': '<velocity or displacement>',
+      'variation': '<full or pair>',                                    if type is velocity
+      'timeStep': <length of simulation timestep>,                      if type is displacement
+      'postSteps': <number of steps to simulate post last collision>    if type is displacement
+    },
+    ...
+  }
+  'data': {
+    'mA': [mass of A],
+    'mB': [mass of B],
+    'vA': [velocity of A],
+    'vB': [velocity of B],
+    'dA': [displacement of A],
+    'dB': [displacement of B],
+    'wA': [width of A],
+    'wB': [width of B]
+  }
+}
 ```
 
-eg.
-```
-python3 displacement-plotter/main.py 16 1 10000 graphs/displacement-16-1.png
-```
-
-
-An animated simulation of the cube bouncing process is located in `/simulation`. It is also running at https://bouncing-cubes.snowboardsheep.repl.co/.
+An animated simulation of the cube bouncing process is located in `/interactive-simulation`. It is also running at https://bouncing-cubes.snowboardsheep.repl.co/.
 
 You can find all graphs used in the paper in `/graphs`. 
 
