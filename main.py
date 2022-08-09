@@ -2,7 +2,7 @@ from graphers import graphVelocity, graphDisplacement
 
 opts = { 
   'timeStep': 0.001, 
-  'postSteps': 10000, 
+  'postSteps': 1000, 
   'mA': 100, 
   'mB': 1, 
   'vA': -10, 
