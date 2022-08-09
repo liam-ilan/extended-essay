@@ -1,33 +1,20 @@
-from velocity import graphVelocity
-from displacement import graphDisplacement
-from opts import opts
+from graphers import graphVelocity, graphDisplacement
 
-def generateGraphs(opts):
-  # convert opts from user to opts for graphers
-  for path in opts['paths'].keys():
+opts = { 
+  'timeStep': 0.001, 
+  'postSteps': 10000, 
+  'mA': 100, 
+  'mB': 1, 
+  'vA': -10, 
+  'vB': 0, 
+  'dA': 200, 
+  'dB': 100, 
+  'wA': 20, 
+  'wB': 20
+}
 
-    # opts to pass to graphers
-    newOpts = {'path': path}
+graphDisplacement('./graphs/displacement-100-1.png', False, opts)
+graphDisplacement('./graphs/displacement-100-1-scale.png', True, opts)
 
-    # opts passed sepcifically for given type
-    specificOpts = opts['paths'][path]
-
-    # handle data for velocity graphs
-    if specificOpts['type'] == 'velocity':
-      newOpts['variation'] = specificOpts['variation']
-
-      # update options and graph
-      newOpts = {**newOpts, **opts['data']}
-      graphVelocity(newOpts)
-
-    # handle data for displacement graphs
-    elif specificOpts['type'] == 'displacement':
-      newOpts['timeStep'] = specificOpts['timeStep']
-      newOpts['postSteps'] = specificOpts['postSteps']
-
-      # update options and graph
-      newOpts = {**newOpts, **opts['data']}
-      graphDisplacement(newOpts)
-
-if __name__ == '__main__':
-  generateGraphs(opts)
+graphVelocity('./graphs/velocity-100-1.png', False, opts)
+graphVelocity('./graphs/velocity-100-1-pair.png', True, opts)

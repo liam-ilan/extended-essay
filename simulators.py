@@ -77,8 +77,6 @@ class World:
     self.b.d += timeStep * self.b.v
 
 def getDisplacementData(opts):
-  print('Simulating displacements for mass ratio ' + str(opts['mA']) + ':' + str(opts['mB']) + '...')
-
   world = World(opts)
   return [world.a.data, world.b.data]
 
