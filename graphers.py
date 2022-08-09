@@ -5,6 +5,10 @@ from matplotlib.patches import Arc
 from simulators import getVelocityData
 from simulators import getDisplacementData
 
+# graphs configuration space of velocities
+# path - path to save to
+# pair - boolean, render only pair of collisions, or whole thing
+# opts - options for sim
 def graphVelocity(path, pair, opts):
   mA = opts['mA']
   mB = opts['mB']
@@ -146,6 +150,10 @@ def graphVelocity(path, pair, opts):
   
   print('Finished ' + path)
 
+# graphs configuration space of displacements
+# path - path to save to
+# pair - boolean, scale by root m1 and m2 or don't
+# opts - options for sim
 def graphDisplacement(path, scale, opts):
   # simulate
   [aData, bData] = getDisplacementData(opts)
@@ -172,9 +180,6 @@ def graphDisplacement(path, scale, opts):
   # plot data
   plt.plot(aData, bData, color='tab:blue', lw=2)
 
-  # size of collision lines
-  collisionLength = max(int(max(aData)), int(max(bData)))
-
   # plot collision lines
   plt.plot(
     [0, max(aData)], 
@@ -183,7 +188,7 @@ def graphDisplacement(path, scale, opts):
   )
   plt.plot(
     [0, max(aData)], 
-    [0, max(aData)/aScaleFactor*bScaleFactor], 
+    [0, max(aData) / aScaleFactor * bScaleFactor], 
     color='tab:green'
   )
 
@@ -210,3 +215,107 @@ def graphDisplacement(path, scale, opts):
   plt.savefig(path)
 
   print('Finished ' + path)
+
+# graphs configuration space of displacements
+# path - path to save to
+# opts - options for sim
+def graphMirrors(path, opts):
+
+  # simulate
+  [aData, bData] = getDisplacementData(opts)
+
+  # setup scale factors
+  aScaleFactor = opts['mA'] ** 0.5
+  bScaleFactor = opts['mB'] ** 0.5
+
+  aData = [x * aScaleFactor for x in aData]
+  bData = [x * bScaleFactor for x in bData]
+
+  # radius of green lines
+  r = (max(aData) ** 2 + max(bData) ** 2) ** 0.5
+
+  # graph
+  print('Graphing ' + path + '...')
+
+  # create figure
+  plt.figure(
+    figsize = (
+      max([*aData, r]) / 100, 
+      max([*bData, r / 2]) / 100
+    ),
+    dpi=300
+  )
+
+  # drop margins
+  plt.margins(0)
+
+  # plot labels and title
+  plt.xlabel(r'$d_{1}\sqrt{m_{1}}$')
+  plt.ylabel(r'$d_{2}\sqrt{m_{2}}$')
+  plt.title('Configuration Space of Displacements for Cubes with Mass Ratio ' + str(opts['mA']) + ':' + str(opts['mB']))
+
+  # find slope of mirror
+  mirrorSlope = (max(aData) / aScaleFactor * bScaleFactor) / max(aData)
+
+  # shift data down to corner
+  yDiff = opts['wB'] * bScaleFactor
+  xDiff = (1 / mirrorSlope) * yDiff
+
+  bData = [y - yDiff for y in bData]
+  aData = [x - xDiff for x in aData]
+
+  angleStep = math.atan(mirrorSlope)
+
+  # plot "light"
+  plt.plot(
+    [-r, r],
+    [bData[0], bData[0]],
+    color='tab:grey',
+    lw = 3
+  )
+
+  # plot data
+  plt.plot(aData, bData, color='tab:blue', lw=2)
+
+  # plot mirrors
+  for n in range(int(math.ceil(math.pi / angleStep))):
+    angle = n * angleStep
+    slope = math.tan(angle)
+
+    # plot collision lines (mirror lines):
+    plt.plot(
+      [0, math.copysign(1, slope) * ((r ** 2) / (slope ** 2 + 1)) ** 0.5], 
+      [0, math.copysign(1, slope) * slope * ((r ** 2) / (slope ** 2 + 1)) ** 0.5], 
+      color='tab:green'
+    )
+
+    # collision points
+    if math.tan(angle) != 0:
+      plt.plot(bData[0] / math.tan(angle), bData[0], 'o', color='tab:pink')
+
+  # create legend
+  # create legend symbols
+  legend_symbols = [
+    Line2D([0], [0], color='tab:blue', lw=1),
+    Line2D([0], [0], color='tab:green', lw=1),
+    Line2D([0], [0], color='tab:grey', lw=1),
+    Line2D([], [], marker='o', color='tab:pink', lw=1),
+  ]
+
+  # titles for legend
+  legend_titles = [
+    'State',
+    '"Mirrors" (Collision Lines)',
+    '"Ray of Light" (State Reflected Across Mirrors)',
+    'Collision'
+  ]
+
+  # plot legend
+  plt.legend(legend_symbols, legend_titles, loc="upper left")
+
+  # download figure
+  print('Saving ' + path + '...')
+  plt.savefig(path)
+
+  print('Finished ' + path)
+

@@ -1,4 +1,4 @@
-from graphers import graphVelocity, graphDisplacement
+from graphers import graphVelocity, graphDisplacement, graphMirrors
 
 opts = { 
   'timeStep': 0.001, 
@@ -18,3 +18,5 @@ graphDisplacement('./graphs/displacement-100-1-scale.png', True, opts)
 
 graphVelocity('./graphs/velocity-100-1.png', False, opts)
 graphVelocity('./graphs/velocity-100-1-pair.png', True, opts)
+
+graphMirrors('./graphs/mirrors-100-1.png', opts)
