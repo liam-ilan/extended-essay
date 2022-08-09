@@ -240,8 +240,8 @@ def graphMirrors(path, opts):
   # create figure
   plt.figure(
     figsize = (
-      max([*aData, r]) / 100, 
-      max([*bData, r / 2]) / 100
+      max([*aData, r]) / 200, 
+      max([*bData, r / 2]) / 200
     ),
     dpi=300
   )
