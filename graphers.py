@@ -14,7 +14,7 @@ def graphVelocity(path, pair, opts):
   print('Graphing ' + path + '...')
     
   # create figure
-  plt.figure(figsize=(7, 7))
+  plt.figure(figsize=(7, 7), dpi=300)
 
   # get radius of energy conservation circle
   radius = -aData[0]
@@ -161,7 +161,7 @@ def graphDisplacement(path, scale, opts):
   print('Graphing ' + path + '...')
   
   # create figure
-  plt.figure(figsize=(7 * aScaleFactor, 7 * bScaleFactor))
+  plt.figure(figsize=(7 * aScaleFactor, 7 * bScaleFactor), dpi=300)
   plt.margins(0)
 
   # plot labels and title
