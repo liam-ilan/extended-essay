@@ -11,7 +11,6 @@ data[data_index][3] = v_1
 data[data_index][4] = v_2
 data_index = data_index + 1
 
-// simulation loop
 loop while t_c >= 0
 
   // t_c = min(time to block-on-block collision, time to block-on-wall collision)
@@ -19,6 +18,7 @@ loop while t_c >= 0
     t_c = (d_2 + w_2 - d_1) / (v_1 - v_2)
   else
     t_c = d_2 / v_2
+  end if
 
   // update displacements
   d_1 = d_1 + v_1 * t_c
@@ -27,6 +27,7 @@ loop while t_c >= 0
   // block-on-wall collision
   if d_2 = 0 then
     v_2 = -v_2
+  end if
 
   // block-on-block collision
   else
@@ -41,5 +42,5 @@ loop while t_c >= 0
   data[data_index][3] = v_1
   data[data_index][4] = v_2
   data_index = data_index + 1
-
+end loop
 output data
