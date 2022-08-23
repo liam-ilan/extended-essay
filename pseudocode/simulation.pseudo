@@ -1,0 +1,45 @@
+// t, d_1, d_2, v_1, v_2, m_1, m_2, and w_2 are set to their initial values
+// data array stores data
+// each element in data is an array of form [t, d_1, d_2, v_1, v_2]
+
+// record initial observations
+data_index = 0
+data[data_index][0] = t
+data[data_index][1] = d_1
+data[data_index][2] = d_2
+data[data_index][3] = v_1
+data[data_index][4] = v_2
+data_index = data_index + 1
+
+// simulation loop
+loop while t_c >= 0
+
+  // t_c = min(time to block-on-block collision, time to block-on-wall collision)
+  if (d_2 + w_2 - d_1) / (v_1 - v_2) < d_2 / v_2 then
+    t_c = (d_2 + w_2 - d_1) / (v_1 - v_2)
+  else
+    t_c = d_2 / v_2
+
+  // update displacements
+  d_1 = d_1 + v_1 * t_c
+  d_2 = d_2 + v_2 * t_c
+
+  // block-on-wall collision
+  if d_2 = 0 then
+    v_2 = -v_2
+
+  // block-on-block collision
+  else
+    v_1 = ((m_1 - m_2) * v_1 + 2 * m_2 * v_2) / (m_2 + m_1)
+    v_2 = ((m_2 - m_1) * v_2 + 2 * m_1 * v_1) / (m_1 + m_2)
+  end if
+
+  // push data
+  data[data_index][0] = t
+  data[data_index][1] = d_1
+  data[data_index][2] = d_2
+  data[data_index][3] = v_1
+  data[data_index][4] = v_2
+  data_index = data_index + 1
+
+output data
