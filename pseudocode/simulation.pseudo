@@ -1,46 +1,56 @@
-// t, d_1, d_2, v_1, v_2, m_1, m_2, and w_2 are set to their initial values
-// data array stores data
-// each element in data is an array of form [t, d_1, d_2, v_1, v_2]
+// DATA array stores output
+// each element in DATA is an array of form [T, D1, D2, V1, V2]
+// T, D1, D2, V1, V2, M1, M2, and W2 are their initial values
 
 // record initial observations
-data_index = 0
-data[data_index][0] = t
-data[data_index][1] = d_1
-data[data_index][2] = d_2
-data[data_index][3] = v_1
-data[data_index][4] = v_2
-data_index = data_index + 1
+DATAINDEX = 0
+DATA[DATAINDEX][0] = T
+DATA[DATAINDEX][1] = D1
+DATA[DATAINDEX][2] = D2
+DATA[DATAINDEX][3] = V1
+DATA[DATAINDEX][4] = V2
+DATAINDEX = DATAINDEX + 1
 
-loop while t_c >= 0
+// find the time to next block-on-block collision
+TC = (D2 + W2 - D1) / (V1 - V2)
 
-  // t_c = min(time to block-on-block collision, time to block-on-wall collision)
-  if (d_2 + w_2 - d_1) / (v_1 - v_2) < d_2 / v_2 then
-    t_c = (d_2 + w_2 - d_1) / (v_1 - v_2)
-  else
-    t_c = d_2 / v_2
-  end if
+// if current simulated collision is Block-on-Block, set to true
+ISBLOCKONBLOCK = true
+
+loop until 0 <= V2 <= V1
+
+  // update T
+  T = T + TC
 
   // update displacements
-  d_1 = d_1 + v_1 * t_c
-  d_2 = d_2 + v_2 * t_c
+  D1 = D1 + V1 * TC
+  D2 = D2 + V2 * TC
 
-  // block-on-wall collision
-  if d_2 = 0 then
-    v_2 = -v_2
-  end if
-
-  // block-on-block collision
+  // update V1 and V2 appropriately
+  if ISBLOCKONBLOCK
+    V1 = ((M1 - M2) * V1 + 2 * M2 * V2) / (M2 + M1)
+    V2 = ((M2 - M1) * v2 + 2 * M1 * V1) / (M1 + M2)
   else
-    v_1 = ((m_1 - m_2) * v_1 + 2 * m_2 * v_2) / (m_2 + m_1)
-    v_2 = ((m_2 - m_1) * v_2 + 2 * m_1 * v_1) / (m_1 + m_2)
+    V2 = -1 * V2
   end if
 
-  // push data
-  data[data_index][0] = t
-  data[data_index][1] = d_1
-  data[data_index][2] = d_2
-  data[data_index][3] = v_1
-  data[data_index][4] = v_2
-  data_index = data_index + 1
+  // push into DATA
+  DATA[DATAINDEX][0] = T
+  DATA[DATAINDEX][1] = D1
+  DATA[DATAINDEX][2] = D2
+  DATA[DATAINDEX][3] = V1
+  DATA[DATAINDEX][4] = V2
+  DATAINDEX = DATAINDEX + 1
+
+  // calculate TC
+  if ISBLOCKONBLOCK then
+    TC = -D2 / V2
+  else
+    TC = (D2 + W2 - D1) / (V1 - V2)
+  end if
+
+  // record next type of collision
+  ISBLOCKONBLOCK = NOT ISBLOCKONBLOCK
 end loop
-output data
+
+output DATA
