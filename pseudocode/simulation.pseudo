@@ -27,9 +27,9 @@ loop until 0 <= V2 <= V1
   D2 = D2 + V2 * TC
 
   // update V1 and V2 appropriately
-  if ISBLOCKONBLOCK
+  if ISBLOCKONBLOCK then
     V1 = ((M1 - M2) * V1 + 2 * M2 * V2) / (M2 + M1)
-    V2 = ((M2 - M1) * v2 + 2 * M1 * V1) / (M1 + M2)
+    V2 = ((M2 - M1) * V2 + 2 * M1 * V1) / (M1 + M2)
   else
     V2 = -1 * V2
   end if
