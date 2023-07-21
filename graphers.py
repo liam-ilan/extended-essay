@@ -152,7 +152,7 @@ def graphVelocity(path, pair, opts):
 
 # graphs configuration space of displacements
 # path - path to save to
-# pair - boolean, scale by root m1 and m2 or don't
+# scale - boolean, scale by root m1 and m2 or don't
 # opts - options for sim
 def graphDisplacement(path, scale, opts):
   # simulate
