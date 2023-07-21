@@ -16,16 +16,16 @@ python main.py
 `graphers.py` provides 3 methods, used by `main.py` for generating graphs:
 
 1. `graphDisplacement(path, scale, opts)` - generates `public/displacement-100-1.png` and `public/displacement-100-1-scale.png`
-  * path - path to save to
-  * pair - boolean, render only pair of collisions, or whole thing
-  * opts - options for sim
+  * `path` - path to save to
+  * `pair` - boolean, render only pair of collisions, or whole thing
+  * `opts` - options for sim
 2. `graphVelocity(path, pair, opts)` - generates `public/velocity-100-1.png` and `public/velocity-100-1-pair.png`
-  * path - path to save to
-  * scale - boolean, scale by root m1 and m2 or don't
-  * opts - options for sim
+  * `path` - path to save to
+  * `scale` - boolean, scale by root m1 and m2 or don't
+  * `opts` - options for sim
 3. `graphMirrors(path, opts)` - generates `public/mirrors-100-1.png`
-  * path - path to save to
-  * opts - options for sim
+  * `path` - path to save to
+  * `opts` - options for sim
 
 The `opts` argument in the 3 methods provided by `graphers.py` is a dictionary, structured as follows:
 ```python
